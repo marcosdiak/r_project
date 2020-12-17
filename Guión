@@ -1,0 +1,27 @@
+
+1. Leer datos de los 5 datasets
+
+2. Hacer merge() (por país y año) para tener un dataframe con los datos de TODOS los datasets
+
+3. Definir el target (mujeres asesinadas)
+
+4. Filtrar el macro-dataframe por un país y eliminar todo lo que sea NaN (se eliminarán muchos años seguramente)
+
+* Hay un paso intermedio para melt() y tener columnas con las features y el target
+
+5. Tratamiento de datos:
+  - Estandarización
+  - Separar train_test_split
+  
+6. Generar modelo
+
+
+--
+
+children <- read.csv('data/children_per_woman_total_fertility.csv')
+population <- read.csv('')
+paro <- read.csv('')
+pib <- read.csv('')
+women <- read.csv('')
+
+

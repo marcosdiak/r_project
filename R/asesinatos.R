@@ -1,6 +1,6 @@
 
-#' @title clasificarContactosApp
-#' @description Funcion principal del paquete de clasificarContactos
+#' @title asesinatos
+#' @description Funcion principal del paquete de asesinatos
 #' 
 #' @param path, string 
 #' 
@@ -8,7 +8,7 @@
 #' @import logging
 #'
 #' @author Ander
-clasificarContactosApp <- function(path){
+asesinatos <- function(path){
   
   tryCatch(expr = {
     
