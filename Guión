@@ -1,27 +1,30 @@
+1. El usuario define qué quiere predecir (target) y especifica para qué año y país.
 
-1. Leer datos de los 5 datasets
+2. Leer datos de los 'n' datasets que proporciona el usuario.
+  - Los datasets tienen que tener todos la misma estructura de 'country' - 'años...'
 
-2. Hacer merge() (por país y año) para tener un dataframe con los datos de TODOS los datasets
+3. Recorrer los 'n' datasets para ver que en ese año y país existen datos de las 'features'.
+  - Aquí establecer cuántas 'features' consideramos como oportunas para poder continuar con el modelo.
+    Lo ideal sería que todas fuesen valores y que no hubiese NaN.
+  - Si consideramos que no es oportuno continuar adelante porque faltan datos de 'features' lanzar un     error que se lo indique al usuario.
+  - Si continuamos adelante con el proceso guardar los valores de la features porque luego se 
+    utilizarán para hacer el 'model.predict'.
 
-3. Definir el target (mujeres asesinadas)
+4. Hacer un melt() de cada dataset para tenerlo en la estructura que queremos.
 
-4. Filtrar el macro-dataframe por un país y eliminar todo lo que sea NaN (se eliminarán muchos años seguramente)
+5. Renombrar las columnas de cada dataset 'melted' a c('Country', 'Año', 'feature_name').
 
-* Hay un paso intermedio para melt() y tener columnas con las features y el target
+6. Hay que hacer merge para juntar todos los dataset 'melted'.
+   Habrá que hacer 'n_datasets - 1' melt() - (Si tenemos 5 datasets, 4 melt()).
 
-5. Tratamiento de datos:
+7. Hacer un 'na.omit(merged_dataset)' para eliminar NaN y quedarnos sólo con datos de features que
+   sean completos.
+
+8. Tratamiento de datos:
   - Estandarización
   - Separar train_test_split
   
-6. Generar modelo
+9. Generar modelo.
 
-
---
-
-children <- read.csv('data/children_per_woman_total_fertility.csv')
-population <- read.csv('')
-paro <- read.csv('')
-pib <- read.csv('')
-women <- read.csv('')
 
 

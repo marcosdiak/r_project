@@ -51,12 +51,17 @@ merge2 <- merge(x = merge1, y = children_melted, by = c('Country', 'Año'), all 
 merge3 <- merge(x = merge2, y = population_melted, by = c('Country', 'Año'), all = T)
 merge4 <- merge(x = merge3, y = women_melted, by = c('Country', 'Año'), all = T)
 
-merge <- merge4
+# Filtramos dataframe para quedarnos sólo con datos completos, prescindiendo de los NaN
 
-# Filtramos dataframe para que nos quedemos sólo con datos a partir de 1990 y hasta 2017
-# ¿Por qué 1990? Porque en el dataset de 'Paro' tenemos datos a partir de ese año
+merge <- na.omit(merge4)
 
-merge[merge['Año'] > 1990]  # da error porque los datos de 'Año' son 'factors'
-str(merge)
+# Tratamiento de datos
+  # - Estandarización
+  # - Dividir en train_test_split
 
-as.numeric(as.character(merge['Año']))
+
+
+
+
+
+
