@@ -5,8 +5,8 @@ children <- read.csv('data/children_per_woman_total_fertility.csv', check.names=
 paro <- read.csv('data/long_term_unemployment_rate_percent.csv', check.names=FALSE)
 pib <- read.csv('data/total_gdp_us_inflation_adjusted.csv', check.names=FALSE)
 women <- read.csv('data/murdered_women_per_100000_people.csv', check.names=FALSE)
-population <- read_excel('data/Data Population - v5 - 1800 to 2100 World Regions and Countries by Gapminder.xlsx',
-                         sheet = 'data-countries-etc-by-year-colu')
+population <- read.csv('data/population_total.csv', check.names=FALSE)
+
 
 # Como 'population' traía por defecto columnas no necesarias, las elimino
 install.packages("dplyr")

@@ -9,7 +9,7 @@
 #' @import logging
 #'
 
-# Leer datos de 'target'
+###### Leer datos de 'target'######
 
 leerDatosTarget <- function(config, path){
   
@@ -18,8 +18,7 @@ leerDatosTarget <- function(config, path){
   
   tryCatch(expr = {
     
-    datos_target <- data.table::fread(pathDatosTarget, sep = config$data$sep,
-                               encoding = 'UTF-8', data.table = FALSE)
+    datos_target <- read.csv(pathDatosTarget, check.names=FALSE)
     
     
   }, error = function(e){
@@ -43,10 +42,8 @@ leerDatosTarget <- function(config, path){
 
 # Datos de target leídos
 
-######
 
-
-# Leer datos de 'train'
+###### Leer datos de 'train' ######
 
 library('XML')
 
@@ -54,19 +51,23 @@ library('XML')
 # Eliminamos los espacios delante y detrás que pudiere haber con 'trimws'
 
 tags_train <- trimws(strsplit(config$data$train, ",")[[1]])
-dataframes = list()
 
 pathDatosTrain <- function(config, path){
   
+  dataframes = c()
+  
   pathDatosTrain <- paste0(path, "data/", tags_train)
   
-  for (dataset in range(length(tags_train))){
+  for (dataset in seq(1, length(tags_train))){
     
     tryCatch(expr = {
       
-      datos_train <- data.table::fread(pathDatosTrain[dataset], sep = config$data$sep,
-                                        encoding = 'UTF-8', data.table = FALSE)
+      datos_train <- read.csv(pathDatosTrain[dataset], check.names=FALSE)
       
+      # Añadir dataframe a la lista vacía
+      dataframes[[dataset]] <- datos_train
+      contador <- contador + 1
+
     }, error = function(e){
       
       logerror("Datos no encontrado en su ruta. Verifica el directorio de data y el config",
@@ -81,16 +82,33 @@ pathDatosTrain <- function(config, path){
       stop()
       
     }
-      
+    
     }
+
+  return(dataframes)
   
-  # Añadir dataframe a la lista vacía
-  append(dataframes, datos_train, after = length(dataframes))
-  dataframes.append(datos_train)
-  
-  return(datos_train)
   
 }
 
-leerDatosTarget(config, path)
-pathDatosTrain(config, path)
+target <- leerDatosTarget(config, path)
+train <- pathDatosTrain(config, path)
+
+train[[1]]
+
+
+
+# Probando
+melting1 <- melt(as.data.frame(train[[1]]), na.rm = F)
+names(melting1) <- c('Country', 'Año', 'Children')
+
+melting2 <- melt(as.data.frame(train[[2]]), na.rm = F)
+names(melting2) <- c('Country', 'Año', 'N')
+
+merge1 <- merge(x = melting1, y = melting2, by = c('Country', 'Año'), all = T)
+
+
+
+
+
+
+

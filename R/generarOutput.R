@@ -7,16 +7,19 @@
 #' @import logging
 #' @return
 #'
+
+
+library('logging')
+
 generarOutput <- function(output, config, path){
 
   marcaTmp <- Sys.time()
   
-  nombreArchivo <- paste0(path, "output/deberesAlemania.csv")
+  nombreArchivo <- paste0(path, "output/prediccion")
   
   tryCatch(expr = {
     
-    write.csv(output$prediccion, file = nombreArchivo, sep = config$input$sep,
-              row.names = FALSE)
+    write.csv(output$prediccion, file = nombreArchivo)
     
   }, error = function(e){
     
@@ -39,3 +42,6 @@ generarOutput <- function(output, config, path){
   
   
 }
+
+
+generarOutput(output, config, path)

@@ -1,7 +1,7 @@
 <config>
   
   <data>  
-    <train>children_per_woman_total_fertility.csv, long_term_unemployment_rate_percent.csv, total_gdp_us_inflation_adjusted.csv, Data Population - v5 - 1800 to 2100 World Regions and Countries by Gapminder.xlsx</train>  
+    <train>children_per_woman_total_fertility.csv, long_term_unemployment_rate_percent.csv, total_gdp_us_inflation_adjusted.csv, population_total.csv</train>  
     <target>murdered_women_per_100000_people.csv</target>
     <sep>,</sep>
   </data>

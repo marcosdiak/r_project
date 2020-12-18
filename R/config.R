@@ -46,7 +46,6 @@ leerConfig <- function(path){
 } 
 
 leerConfig(path)
-path <- "~/Documents/Bootcamp/Bootcamp/my_bootcamp_files/bootcamp-files/R/Proyecto/r_project/"
 configPath <- paste0(path, "config/config.xml")
 parsing <- xmlParse(file = configPath)
   
