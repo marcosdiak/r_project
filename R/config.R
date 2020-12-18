@@ -8,13 +8,13 @@
 #' @import logging
 #'
 #' @examples
+#' 
 leerConfig <- function(path){
   
   library(XML)
   
-  
   configPath <- paste0(path, "config/config.xml")
-  
+  parsing <- xmlParse(file = configPath)
   
   tryCatch(expr = {
     
@@ -31,19 +31,12 @@ leerConfig <- function(path){
   
   loginfo("Config leido.", logger = 'log')
   
-  validateConfigNodes(config)
-  
-  config$columnas$predictorasNumericas <- trimws(strsplit(config$columnas$predictorasNumericas, ",")[[1]])
-  config$columnas$fechas$tiempos <- as.numeric(trimws(strsplit(config$columnas$fechas$tiempos, ",")[[1]]))
-
-  config$columnas$mails$ratios <-  as.logical(config$columnas$mails$ratios)
-  
   
   separadoresAceptados <- config$input$sep %in% c(",", ";")
   
   if(!separadoresAceptados){
     
-    logerror("Sep solo puede valer ',' o ';' ", logger = 'log')
+    logerror("'Sep' sólo puede valer ',' o ';' ", logger = 'log')
     stop()
     
   }
@@ -52,42 +45,8 @@ leerConfig <- function(path){
   
 } 
 
-#' @title validateConfigNodes
-#'
-#' @param config 
-#'
-#' @import logging
-#' 
-validateConfigNodes <- function(config){
+leerConfig(path)
+path <- "~/Documents/Bootcamp/Bootcamp/my_bootcamp_files/bootcamp-files/R/Proyecto/r_project/"
+configPath <- paste0(path, "config/config.xml")
+parsing <- xmlParse(file = configPath)
   
-  nodoPrincipal <- identical(names(config), c("input", "columnas"))
-  nodoInput <- identical(names(config$input), c("name", "sep"))
-  nodoColumnas <- identical(names(config$columnas), c("ID", "predictorasNumericas",
-                                                     "fuenteOriginal", "dominio_mail",
-                                                     "fechas", "mails", "target", "llamada"))
-  
-  nodoFechas <- identical(names(config$columnas$fechas), c("creacion", "ultima_mod",
-                                                           "apertura_ultimo", "envio_ultimo",
-                                                           "apertura_primero", "envio_primero",
-                                                           "visita_primero", "visita_ultimo",
-                                                           "tiempos"))
-  
-  nodoMails <- identical(names(config$columnas$mails), c("mailsDl", "mailsCl", "mailsOp", "ratios"))
-  
-  nodos <- c("nodoPrincipal" = nodoPrincipal, "nodoInput" = nodoInput, 
-             "nodoColumnas" = nodoColumnas, "nodoFechas" = nodoFechas,
-             "nodoMails" = nodoMails)
-  
-  check <- all(nodos)
-  
-  if(!check){
-    
-    nodosMalos <- names(nodos)[!nodos]
-    
-    logerror(paste0("Los nodos: ", paste(nodosMalos, collapse = ", "),
-                    " estan mal estructurados!"), logger = 'log')
-    stop()
-    
-  }
-  
-}

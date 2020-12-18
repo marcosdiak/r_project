@@ -28,6 +28,9 @@ names(population) <- names(children)
 install.packages("reshape")
 library('reshape')
 
+install.packages('DMwR')
+library('DAAG')
+
 pib_melted <- melt(pib, na.rm = F)
 names(pib_melted) <- c('Country', 'Año', 'PIB')
 
@@ -54,14 +57,51 @@ merge4 <- merge(x = merge3, y = women_melted, by = c('Country', 'Año'), all = T
 # Filtramos dataframe para quedarnos sólo con datos completos, prescindiendo de los NaN
 
 merge <- na.omit(merge4)
+merge_without_country_year <- merge[c(3:7)]
 
 # Tratamiento de datos
-  # - Estandarización
-  # - Dividir en train_test_split
+  # - Estandarización (no hacemos)
+  # - Dividir en train y test (sin X e y)
+
+## Probando seperando sólo train y test
+
+trainingRowIndex <- sample(1:nrow(merge_without_country_year), 0.8*nrow(merge_without_country_year))
+trainingData <- merge_without_country_year[trainingRowIndex, ]
+testData  <- merge_without_country_year[-trainingRowIndex, ]
+
+lmMod <- lm(Women ~ ., data=trainingData)
+predictions <- predict(lmMod, testData)
+
+summary(lmMod)
+
+actuals_preds <- data.frame(cbind(actuals=testData$Women, predicteds=predictions))  # make actuals_predicteds dataframe.
+correlation_accuracy <- cor(actuals_preds)
+head(actuals_preds)
+
+# Min-Max Accuracy Calculation
+min_max_accuracy <- mean(apply(actuals_preds, 1, min) / apply(actuals_preds, 1, max))  
+# => 55.80%, min_max accuracy
+
+# MAPE Calculation
+mape <- mean(abs((actuals_preds$predicteds - actuals_preds$actuals))/actuals_preds$actuals)  
+# => 2.04%, mean absolute percentage deviation
 
 
+# Alternately, you can compute all the error metrics in one go using the regr.eval() function in DMwR package. 
+# You will have to install.packages('DMwR') for this if you are using it for the first time.
+DMwR::regr.eval(actuals_preds$actuals, actuals_preds$predicteds)
 
+# Cross-validation
+cvResults <- suppressWarnings(CVlm(data=merge_without_country_year, form.lm=Women ~ ., 
+                                   m=5, dots=FALSE, seed=29, legend.pos="topleft",  printit=FALSE, main="Small symbols are predicted values while bigger ones are actuals."));  
+attr(cvResults, 'ms')  
 
+# Predecimos Australia 2005
+
+Australia2005 <- filter(merge4, Country == 'Australia' , Año == 2005)
+Australia2005 <- Australia2005[c(3:6)]
+
+Australia_predictions <- predict(lmMod, Australia2005)
 
 
 
