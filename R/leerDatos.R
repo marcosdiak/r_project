@@ -50,10 +50,9 @@ library('XML')
 # Separamos los nombres de los .csv que introduce el usuario por ',' 
 # Eliminamos los espacios delante y detrás que pudiere haber con 'trimws'
 
-tags_train <- trimws(strsplit(config$data$train, ",")[[1]])
-
-pathDatosTrain <- function(config, path){
+leerDatosTrain <- function(config, path){
   
+  tags_train <- trimws(strsplit(config$data$train, ",")[[1]])
   dataframes = c()
   
   pathDatosTrain <- paste0(path, "data/", tags_train)
@@ -89,26 +88,4 @@ pathDatosTrain <- function(config, path){
   
   
 }
-
-target <- leerDatosTarget(config, path)
-train <- pathDatosTrain(config, path)
-
-train[[1]]
-
-
-
-# Probando
-melting1 <- melt(as.data.frame(train[[1]]), na.rm = F)
-names(melting1) <- c('Country', 'Año', 'Children')
-
-melting2 <- melt(as.data.frame(train[[2]]), na.rm = F)
-names(melting2) <- c('Country', 'Año', 'N')
-
-merge1 <- merge(x = melting1, y = melting2, by = c('Country', 'Año'), all = T)
-
-
-
-
-
-
 

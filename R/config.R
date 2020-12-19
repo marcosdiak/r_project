@@ -1,4 +1,4 @@
-#' Title
+#' Config de la aplicación
 #'
 #' @param path 
 #'
@@ -29,10 +29,10 @@ leerConfig <- function(path){
     stop()
   })
   
-  loginfo("Config leido.", logger = 'log')
+  loginfo("Config leído correctamente", logger = 'log')
   
   
-  separadoresAceptados <- config$input$sep %in% c(",", ";")
+  separadoresAceptados <- config$data$sep %in% c(",", ";")
   
   if(!separadoresAceptados){
     
@@ -44,8 +44,3 @@ leerConfig <- function(path){
   return(config)
   
 } 
-
-leerConfig(path)
-configPath <- paste0(path, "config/config.xml")
-parsing <- xmlParse(file = configPath)
-  

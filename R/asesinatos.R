@@ -7,40 +7,60 @@
 #' @export
 #' @import logging
 #'
-#' @author Ander
+#' @author Zorion, Tilda, Marcos
+
 asesinatos <- function(path){
   
   tryCatch(expr = {
     
     library(logging)
     
-    #Generar el manejado de log
+    #Generando el manejado de log
     addHandler(writeToFile, logger = 'log', file = paste0(path, "/log/logfile.log"))
-    loginfo("Empezamos la app...", logger = 'log')
+    loginfo("... Inicializando aplicación ...", logger = 'log')
     
     loginfo("Leyendo el config...", logger = 'log')
     config <- leerConfig(path)
-    loginfo("Config leido.", logger = 'log')
+
+    
+    loginfo("Leyendo los datos de target...", logger = 'log')
+    target <- leerDatosTarget(config, path)
+    loginfo("Datos de target leídos correctamente", logger = 'log')
+    
+    loginfo("Leyendo los datos de train...", logger = 'log')
+    train <- leerDatosTrain(config, path)
+    loginfo("Datos de train leídos correctamente", logger = 'log')
     
     
-    loginfo("Leyendo los datos...", logger = 'log')
-    datos <- leerDatos(config, path)
-    loginfo("Datos leidos.", logger = 'log')
+    loginfo("Procesando los datos de train...", logger = 'log')
+    train <- meltingData(train)
+    train <- mergingDataTrain(train)
+    loginfo("Datos de train procesados correctamente", logger = 'log')
     
+    loginfo("Procesando los datos de target...", logger = 'log')
+    target <- meltingTarget(target)
+    loginfo("Target procesado correctamente", logger = 'log')
     
-    loginfo("Procesando los datos...", logger = 'log')
-    splitDatos <- preProcesarDatos(datos, config)
-    loginfo("Datos procesados.", logger = 'log')
+  
+    loginfo("Revisando viabilidad de petición de usuario...", logger = 'log')
+    merge_bruto <- mergingDataTotalBruto(train, target)
+    # Justo aquí, ahora, se realiza el chequeo de si se puede seguir adelante:
+      # - Revisar si para el año y país introducido por el usuario se puede hacer el modelo
     
+    loginfo("Petición correcta", logger = 'log')
+    dataframe <- CleaningData(merge_bruto)
+  
     
     loginfo("Generando modelo...", logger = 'log')
-    output <- generarModelo(splitDatos, config)
-    loginfo("Modelo Generado.", logger = 'log')
+    output <- generarModelo(dataframe, merge_bruto, config)
+    loginfo("Modelo generado", logger = 'log')
     
     
-    loginfo("Generando output...", logger = 'log')
+    loginfo("Obteniendo output...", logger = 'log')
     generarOutput(output, config, path)
-    loginfo("Output generado.", logger = 'log')
+    loginfo("¡Output listo!", logger = 'log')
+    loginfo("...", logger = 'log')
+    
     
   }, error = function(e){
     
@@ -49,10 +69,10 @@ asesinatos <- function(path){
     
   },finally = {
     
-    loginfo("Fin de la ejecucion.", logger = 'log')
+    loginfo("La ejecución ha finalizado correctamente", logger = 'log')
     removeHandler(writeToFile, logger = 'log')
     
   })
-
+  
   
 }

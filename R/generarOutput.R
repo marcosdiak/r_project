@@ -1,4 +1,4 @@
-#' Title
+#' Generando output
 #'
 #' @param output 
 #' @param config 
@@ -43,5 +43,3 @@ generarOutput <- function(output, config, path){
   
 }
 
-
-generarOutput(output, config, path)

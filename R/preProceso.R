@@ -1,6 +1,4 @@
-
-
-#' Title
+#' Procesando datos
 #'
 #' @param datos 
 #' @param config 
@@ -10,7 +8,7 @@
 #'
 #' @examples
 
-# Función para hacer melt() de todos los datasets
+### Función para hacer melt() de todos los datasets ### 
 
 meltingData <- function(datos){
   
@@ -29,7 +27,8 @@ meltingData <- function(datos){
 
 }
 
-# Función para hacer melt() del target
+
+###  Función para hacer melt() del target ### 
 
 meltingTarget <- function(datos){
   
@@ -41,8 +40,8 @@ meltingTarget <- function(datos){
 }
 
     
+###  Función para hacer merge() de todos los datasets de train ### 
 
-# Función para hacer merge() de todos los datasets de train
 mergingDataTrain <- function(datos){
   
   merge <- merge(x = datos[[1]], y = datos[[2]], by = c('Country', 'Año'), all = T)
@@ -57,7 +56,8 @@ mergingDataTrain <- function(datos){
   
 }
 
-# Función para hacer merge() del target con el merge de train
+###  Función para hacer merge() del target con el merge de train ### 
+
 # El dataset resultante es el que se usará para revisar los datos país y año que el usuario especifica
 # De este modo podemos saber si ya tenemos el target y mostrarlo
 # O si nos faltan features y no podemos predecir
@@ -70,7 +70,7 @@ mergingDataTotalBruto <- function(merge, target){
   
 }
   
-# Función 'Cleaned data' sin NaN
+###  Función 'Cleaned data' sin NaN ### 
 
 CleaningData <- function(merge_bruto){
   
@@ -81,23 +81,3 @@ CleaningData <- function(merge_bruto){
   return(dataframe)
   
 }
-
-  
-  
-  
-
- 
-
-  
-# Data without country and year  
-merge_without_country_year <- merge[c(3:7)]
-
-
-a <- meltingData(train)
-a1 <- meltingTarget(target)
-
-b <- mergingDataTrain(a)
-
-c <- mergingDataTotalBruto(b, a1)
-
-d <- CleaningData(c)
