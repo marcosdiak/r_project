@@ -21,8 +21,8 @@
    sean completos.
 
 8. Tratamiento de datos:
-  - Estandarización
-  - Separar train_test_split
+  - ¿Estandarización?
+  - Dividir en train y test
   
 9. Generar modelo.
 

@@ -62,9 +62,39 @@ mergingDataTrain <- function(datos){
 # De este modo podemos saber si ya tenemos el target y mostrarlo
 # O si nos faltan features y no podemos predecir
 
-mergingDataTotalBruto <- function(merge, target){
+mergingDataTotalBruto <- function(merge, target, config){
   
   merge_bruto <- merge(x = merge, y = target, by = c('Country', 'Año'), all = T)
+  
+  user_input <- filter(merge_bruto, Country == config$prediction$country, Año == config$prediction$year)
+  user_input <- user_input[c(3:(length(names(merge_bruto))))]
+
+  
+  if(is.na(user_input[length(user_input)]) == F){
+    
+    logerror(paste0("El dato especificado a predecir ya existe: ", user_input[length(user_input)]),
+             logger = 'log')
+    
+    stop()
+   
+  }else {
+      
+    for (feature in seq(1, (length(user_input) - 1))) {
+      
+      if(is.na(user_input[[feature]]) == T) {
+        
+        logerror("Error: al menos uno de los datos predictores para ese año y país no existe",
+                 logger = 'log')
+        stop()
+    
+      }
+
+      
+    }
+    
+    
+  }
+ 
   
   return(merge_bruto)
   

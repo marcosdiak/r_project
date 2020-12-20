@@ -43,9 +43,9 @@ asesinatos <- function(path){
     
   
     loginfo("Revisando viabilidad de petición de usuario...", logger = 'log')
-    merge_bruto <- mergingDataTotalBruto(train, target)
+    merge_bruto <- mergingDataTotalBruto(train, target, config)
     # Justo aquí, ahora, se realiza el chequeo de si se puede seguir adelante:
-      # - Revisar si para el año y país introducido por el usuario se puede hacer el modelo
+    # Revisar si para el año y país introducido por el usuario se puede hacer el modelo
     
     loginfo("Petición correcta", logger = 'log')
     dataframe <- CleaningData(merge_bruto)
@@ -64,12 +64,12 @@ asesinatos <- function(path){
     
   }, error = function(e){
     
-    logerror("La aplicacion ha petado...", logger = 'log')
+    logerror("La aplicacion se ha detenido...", logger = 'log')
     stop()
     
   },finally = {
     
-    loginfo("La ejecución ha finalizado correctamente", logger = 'log')
+    loginfo("La ejecución de la aplicación ha finalizado", logger = 'log')
     removeHandler(writeToFile, logger = 'log')
     
   })
