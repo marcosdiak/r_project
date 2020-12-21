@@ -1,21 +1,22 @@
+
 #' Generando output
 #'
 #' @param output 
 #' @param config 
 #' @param path 
 #'
-#' @import logging
 #' @return
+#' @export
 #'
-
-
-library('logging')
+#' @examples
 
 generarOutput <- function(output, config, path){
-
+  
+  library('logging')
+  
   marcaTmp <- Sys.time()
   
-  nombreArchivo <- paste0(path, "output/prediccion")
+  nombreArchivo <- paste0(path, "output/prediccion.csv")
   
   tryCatch(expr = {
     

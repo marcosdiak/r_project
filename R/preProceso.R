@@ -1,14 +1,12 @@
-#' Procesando datos
+
+#' Función para hacer melt() de todos los datasets
 #'
 #' @param datos 
-#' @param config 
 #'
 #' @return
-#' @import logging
+#' @export
 #'
 #' @examples
-
-### Función para hacer melt() de todos los datasets ### 
 
 meltingData <- function(datos){
   
@@ -28,7 +26,14 @@ meltingData <- function(datos){
 }
 
 
-###  Función para hacer melt() del target ### 
+#' Función para hacer melt() del target
+#'
+#' @param datos 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 
 meltingTarget <- function(datos){
   
@@ -40,7 +45,15 @@ meltingTarget <- function(datos){
 }
 
     
-###  Función para hacer merge() de todos los datasets de train ### 
+
+#' Función para hacer merge() de todos los datasets de train
+#'
+#' @param datos 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 
 mergingDataTrain <- function(datos){
   
@@ -56,20 +69,29 @@ mergingDataTrain <- function(datos){
   
 }
 
-###  Función para hacer merge() del target con el merge de train ### 
 
-# El dataset resultante es el que se usará para revisar los datos país y año que el usuario especifica
-# De este modo podemos saber si ya tenemos el target y mostrarlo
-# O si nos faltan features y no podemos predecir
+
+#' Función para hacer merge() del target con el merge de train
+#'
+#' @param merge 
+#' @param target 
+#' @param config 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 
 mergingDataTotalBruto <- function(merge, target, config){
   
+  # Haciendo merge de los datos incluyendo el target
   merge_bruto <- merge(x = merge, y = target, by = c('Country', 'Año'), all = T)
   
+  # Cogiendo como referencia los datos de año y país que el usuario quiere predecir
   user_input <- filter(merge_bruto, Country == config$prediction$country, Año == config$prediction$year)
   user_input <- user_input[c(3:(length(names(merge_bruto))))]
 
-  
+  # Comprobando que es viable hacer la predicción que ha solicitado el usuario
   if(is.na(user_input[length(user_input)]) == F){
     
     logerror(paste0("El dato especificado a predecir ya existe: ", user_input[length(user_input)]),
@@ -100,7 +122,15 @@ mergingDataTotalBruto <- function(merge, target, config){
   
 }
   
-###  Función 'Cleaned data' sin NaN ### 
+
+#' Función para dejar el dataframe sin NA y trabajar con él
+#'
+#' @param merge_bruto 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 
 CleaningData <- function(merge_bruto){
   

@@ -1,15 +1,13 @@
-#' @title leerDatos
+
+#' Leer datos de 'target'
 #'
 #' @param config 
 #' @param path 
 #'
 #' @return
-#' 
-#' @import data.table
-#' @import logging
+#' @export
 #'
-
-###### Leer datos de 'target'######
+#' @examples
 
 leerDatosTarget <- function(config, path){
   
@@ -43,15 +41,21 @@ leerDatosTarget <- function(config, path){
 # Datos de target leídos
 
 
-###### Leer datos de 'train' ######
 
-library('XML')
-
-# Separamos los nombres de los .csv que introduce el usuario por ',' 
-# Eliminamos los espacios delante y detrás que pudiere haber con 'trimws'
+#' Leer datos de 'train'
+#'
+#' @param config 
+#' @param path 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 
 leerDatosTrain <- function(config, path){
   
+  # Separamos los nombres de los .csv que introduce el usuario por ',' 
+  # Eliminamos los espacios delante y detrás que pudiere haber con 'trimws'
   tags_train <- trimws(strsplit(config$data$train, ",")[[1]])
   dataframes = c()
   
@@ -65,11 +69,10 @@ leerDatosTrain <- function(config, path){
       
       # Añadir dataframe a la lista vacía
       dataframes[[dataset]] <- datos_train
-      contador <- contador + 1
 
     }, error = function(e){
       
-      logerror("Datos no encontrado en su ruta. Verifica el directorio de data y el config",
+      logerror("Datos no encontrados en su ruta. Verifica el directorio de data y el config",
                logger = 'log')
       stop()
     })
@@ -88,4 +91,7 @@ leerDatosTrain <- function(config, path){
   
   
 }
+
+# Datos de train leídos
+
 

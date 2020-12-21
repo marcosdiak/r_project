@@ -1,10 +1,12 @@
+
 #' Generando modelo predictivo
 #'
-#' @param datos 
+#' @param dataframe 
+#' @param merge_bruto 
 #' @param config 
 #'
-#' @import xgboost
-#' @import logging
+#' @return
+#' @export
 #'
 #' @examples
 

@@ -1,8 +1,8 @@
 
 #' @title asesinatos
+#' @param path 
+#'
 #' @description Funcion principal del paquete de asesinatos
-#' 
-#' @param path, string 
 #' 
 #' @export
 #' @import logging
@@ -15,7 +15,8 @@ asesinatos <- function(path){
     
     library(logging)
     
-    #Generando el manejado de log
+    # Generando la evolución del log
+    
     addHandler(writeToFile, logger = 'log', file = paste0(path, "/log/logfile.log"))
     loginfo("... Inicializando aplicación ...", logger = 'log')
     

@@ -8,7 +8,7 @@
 #' @import logging
 #'
 #' @examples
-#' 
+
 leerConfig <- function(path){
   
   library(XML)
